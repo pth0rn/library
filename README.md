@@ -1,2 +1,2 @@
-# library
+# Library
 Odin library project
