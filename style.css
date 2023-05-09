@@ -5,6 +5,16 @@ body {
     font-family: 'Comfortaa', sans-serif;
     font-size: 15px;
     background-color: rgb(247, 251, 253);
+    position: relative;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.63);
 }
 
 /***  HEADER  ***/
@@ -36,10 +46,10 @@ header h1 {
 #actions {
     display: flex;
     justify-content: end;
-    padding: 10px;
+    padding: 10px 50px;
 }
 
-#actions button {
+button {
     padding: 10px;
     border: 0;
     border-radius: 10px;
@@ -53,4 +63,55 @@ header h1 {
 main .message {
     text-align: center;
     color:rgb(129, 129, 129)
+}
+
+main {
+    padding: 0px 50px;
+}
+
+/***  DIALOG  ***/
+
+.dialog input {
+    padding: 4px;
+    font-family: inherit;
+    font-size: 1.1rem;
+}
+
+.dialog-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+}
+
+.dialog {
+    width: 200px;
+    /* height: 300px; */
+    background-color: white;
+    padding: 20px 40px;
+    border-radius: 20px;;
+    border: 1px solid rgb(194, 194, 194);
+    position: relative;
+    
+}
+
+.dialog h3 {
+    text-align: center;
+    /* margin-top: 0px; */
+}
+
+#form-add {
+    display: grid;
+    gap: 5px;
+}
+
+.btn-cancel {
+    background-color: rgb(255, 86, 80);
+}
+
+.dialog #buttons {
+    padding-top:10px;
+    display: flex;
+    justify-content:space-evenly;
 }
