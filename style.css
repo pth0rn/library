@@ -2,8 +2,9 @@ html,
 body {
     margin: 0;
     height: 100%;
-    font-family: 'Noto Sans Kannada', sans-serif;
+    font-family: 'Comfortaa', sans-serif;
     font-size: 15px;
+    background-color: rgb(247, 251, 253);
 }
 
 /***  HEADER  ***/
@@ -27,5 +28,29 @@ header #profile img {
 header h1 {
     flex: 1;
     align-self: end;
-    margin-bottom: 0px;
+    margin-bottom: 5px;
 }   
+
+/***  ACTIONS  ***/
+
+#actions {
+    display: flex;
+    justify-content: end;
+    padding: 10px;
+}
+
+#actions button {
+    padding: 10px;
+    border: 0;
+    border-radius: 10px;
+    background-color: cornflowerblue;
+    color: white;
+    font-family: inherit;
+}
+
+/***  MAIN  ***/
+
+main .message {
+    text-align: center;
+    color:rgb(129, 129, 129)
+}
