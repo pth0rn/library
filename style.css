@@ -1,0 +1,31 @@
+html,
+body {
+    margin: 0;
+    height: 100%;
+    font-family: 'Noto Sans Kannada', sans-serif;
+    font-size: 15px;
+}
+
+/***  HEADER  ***/
+header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background-color: aliceblue;
+    align-content: center;
+    padding: 20px;
+}
+
+header #logo {
+    width: 72px;
+}
+
+header #profile img {
+    width: 40px;
+}
+
+header h1 {
+    flex: 1;
+    align-self: end;
+    margin-bottom: 0px;
+}   
