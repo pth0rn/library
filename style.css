@@ -27,13 +27,18 @@ body {
 }
 
 /***  HEADER  ***/
-header {
+header #container {
     display: flex;
     align-items: center;
     gap: 20px;
-    background-color: var(--header-color);
     align-content: center;
     padding: 20px;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+header {
+    background-color: var(--header-color);
 }
 
 header #logo {
@@ -47,7 +52,7 @@ header #profile img {
 header h1 {
     flex: 1;
     align-self: end;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
 }   
 
 /***  ACTIONS  ***/
@@ -55,7 +60,9 @@ header h1 {
 #actions {
     display: flex;
     justify-content: end;
-    padding: 10px 50px;
+    padding: 10px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 button {
