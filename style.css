@@ -103,6 +103,14 @@ td {
     padding: 20px;
 }
 
+.remove {
+    padding: 1px 5px;
+}
+
+.remove:hover {
+    cursor: pointer;
+}
+
 /***  DIALOG  ***/
 
 .dialog input {

@@ -7,9 +7,11 @@ function Book(name, author, pages, read) {
     this.read = read;
 }
 
-function removeEmptyLibrary() {
+Book.prototype.toggleRead = function() {
+    this.read = !this.read;
+}
 
-    document.querySelector('table').remove()
+function removeEmptyLibrary() {
     const divMessage = document.createElement('div');
     divMessage.innerHTML = `
     <div class="message">
@@ -55,20 +57,32 @@ function displayTable() {
         <td>${book.name}</td>
         <td>${book.author}</td>
         <td>${book.pages}</td>
-        <td><input type="checkbox" ${book.read ? 'checked' : null}></td>
+        <td><input type="checkbox"class="read" data-name="${book.name}" ${book.read ? 'checked' : null}></td>
         <td><button class="btn-cancel remove" data-name="${book.name}">x</button></td>
         `
-    table.querySelector('tbody').appendChild(row);
+        table.querySelector('tbody').appendChild(row);
     
-    table.querySelectorAll(".remove").forEach(el => {
+    }
+
+     // remove book on button click
+     table.querySelectorAll(".remove").forEach(el => {
         el.addEventListener('click', e => {
             const bookName = e.target.dataset.name;
             removeBook(bookName)
         })
     })
 
-    }
+    table.querySelectorAll(".read").forEach(el => {
+        el.addEventListener('click', e => {
+            const bookName = e.target.dataset.name;
+            console.log(library.findIndex( book => book.name === bookName))
+
+            const bookIndex = library.findIndex( book => book.name === bookName)
+            library[bookIndex].toggleRead()
+        })
+    })
 }
+
 
 function removeBook(name) {
     library = library.filter( book => {
@@ -134,11 +148,12 @@ function diaglogAddBook() {
     })
 
     dialog.querySelector("#add").addEventListener("click", e => {
-        const newBook = new Book();
-        newBook.name = document.querySelector("#name").value;
-        newBook.author = document.querySelector("#author").value;
-        newBook.pages = document.querySelector("#pages").value;
-        newBook.read = document.querySelector("#read").checked;
+        const newBook = new Book(
+            document.querySelector("#name").value,
+            document.querySelector("#author").value,
+            document.querySelector("#pages").value,
+            document.querySelector("#read").checked
+        );
         overlay.remove()
         addBookToLibrary(newBook)
     })
@@ -147,3 +162,25 @@ function diaglogAddBook() {
 document.querySelector("button#add-book")
     .addEventListener("click", diaglogAddBook);
 
+
+
+
+function addExampleBooks() {
+    document.querySelector('.message').remove()
+
+    library = [
+        new Book("The Great Gatsby", "F. Scott Fitzgerald", 218, true),
+        new Book("To Kill a Mockingbird", "Harper Lee", 281, false),
+        new Book("1984", "George Orwell", 328, true),
+        new Book("Pride and Prejudice", "Jane Austen", 432, false),
+        new Book("The Catcher in the Rye", "J.D. Salinger", 224, true),
+        new Book("The Hobbit", "J.R.R. Tolkien", 310, true),
+        new Book("Brave New World", "Aldous Huxley", 288, false),
+        new Book("The Lord of the Rings", "J.R.R. Tolkien", 1178, false),
+        new Book("One Hundred Years of Solitude", "Gabriel Garcia Marquez", 417, true),
+        new Book("The Picture of Dorian Gray", "Oscar Wilde", 254, false),
+    ]
+displayTable()
+}
+
+addExampleBooks()
