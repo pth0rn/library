@@ -7,25 +7,25 @@ function Book(name, author, pages, read) {
     this.read = read;
 }
 
-Book.prototype.toggleRead = function() {
+Book.prototype.toggleRead = function () {
     this.read = !this.read;
-}
+};
 
-function removeEmptyLibrary() {
-    const divMessage = document.createElement('div');
+function removeEmptyTable() {
+    // remove table and display the no books message
+    document.querySelector("table").remove();
+    const divMessage = document.createElement("div");
     divMessage.innerHTML = `
     <div class="message">
         <p>No books added yet</p>
     </div>
-    `
-    document.querySelector('main').appendChild(divMessage);
-
+    `;
+    document.querySelector("main").appendChild(divMessage);
 }
 
 function createTable() {
-    const table = document.createElement('table');
-    table.innerHTML=`
-
+    const table = document.createElement("table");
+    table.innerHTML = `
             <thead>
                 <tr>
                 <th data-cell="name">Book</th>
@@ -37,75 +37,74 @@ function createTable() {
         
             <tbody>
             </tbody>
-`
+    `;
 
-    const container = document.querySelector('#table-container');
+    const container = document.querySelector("#table-container");
     return container.appendChild(table);
-    
 }
 
 function displayTable() {
-    if (document.querySelector('table')) {
-        document.querySelector('table').remove()
+    //remove current table and display updated table
+    if (document.querySelector("table")) {
+        document.querySelector("table").remove();
     }
     const table = createTable();
 
-    ;
     for (const book of library) {
         const row = document.createElement("tr");
         row.innerHTML = `
         <td>${book.name}</td>
         <td>${book.author}</td>
         <td>${book.pages}</td>
-        <td><input type="checkbox"class="read" data-name="${book.name}" ${book.read ? 'checked' : null}></td>
-        <td><button class="btn-cancel remove" data-name="${book.name}">x</button></td>
-        `
-        table.querySelector('tbody').appendChild(row);
-    
+        <td><input type="checkbox"class="read" data-name="${book.name}" ${
+            book.read ? "checked" : null
+        }></td>
+        <td><button class="btn-cancel remove" data-name="${
+            book.name
+        }">x</button></td>
+        `;
+        table.querySelector("tbody").appendChild(row);
     }
 
-     // remove book on button click
-     table.querySelectorAll(".remove").forEach(el => {
-        el.addEventListener('click', e => {
+    // click events for remove buttons
+    table.querySelectorAll(".remove").forEach((el) => {
+        el.addEventListener("click", (e) => {
             const bookName = e.target.dataset.name;
-            removeBook(bookName)
-        })
-    })
+            removeBook(bookName);
+        });
+    });
 
-    table.querySelectorAll(".read").forEach(el => {
-        el.addEventListener('click', e => {
+    // click events for toggling read status
+    table.querySelectorAll(".read").forEach((el) => {
+        el.addEventListener("click", (e) => {
             const bookName = e.target.dataset.name;
-            console.log(library.findIndex( book => book.name === bookName))
 
-            const bookIndex = library.findIndex( book => book.name === bookName)
-            library[bookIndex].toggleRead()
-        })
-    })
+            const bookIndex = library.findIndex(
+                (book) => book.name === bookName
+            );
+            library[bookIndex].toggleRead();
+        });
+    });
 }
 
-
 function removeBook(name) {
-    library = library.filter( book => {
+    library = library.filter((book) => {
         return book.name !== name;
-    })
-    
+    });
+
     if (library.length === 0) {
-        removeEmptyLibrary()
+        removeEmptyTable();
     } else {
-        displayTable()
+        displayTable();
     }
-    
 }
 
 function addBookToLibrary(book) {
-    library.push(book)
-    const message = document.querySelector('.message')
+    library.push(book);
+    const message = document.querySelector(".message");
     if (message) {
-        message.remove()
+        message.remove();
     }
-
-    displayTable()
-
 }
 
 function diaglogAddBook() {
@@ -143,30 +142,25 @@ function diaglogAddBook() {
 
     overlay.appendChild(dialog);
 
-    dialog.querySelector(".btn-cancel").addEventListener("click", e => {
+    dialog.querySelector(".btn-cancel").addEventListener("click", (e) => {
         overlay.remove();
-    })
+    });
 
-    dialog.querySelector("#add").addEventListener("click", e => {
+    dialog.querySelector("#add").addEventListener("click", (e) => {
         const newBook = new Book(
             document.querySelector("#name").value,
             document.querySelector("#author").value,
             document.querySelector("#pages").value,
             document.querySelector("#read").checked
         );
-        overlay.remove()
-        addBookToLibrary(newBook)
-    })
+        overlay.remove();
+        addBookToLibrary(newBook);
+        displayTable();
+    });
 }
 
-document.querySelector("button#add-book")
-    .addEventListener("click", diaglogAddBook);
-
-
-
-
 function addExampleBooks() {
-    document.querySelector('.message').remove()
+    document.querySelector(".message").remove();
 
     library = [
         new Book("The Great Gatsby", "F. Scott Fitzgerald", 218, true),
@@ -177,10 +171,18 @@ function addExampleBooks() {
         new Book("The Hobbit", "J.R.R. Tolkien", 310, true),
         new Book("Brave New World", "Aldous Huxley", 288, false),
         new Book("The Lord of the Rings", "J.R.R. Tolkien", 1178, false),
-        new Book("One Hundred Years of Solitude", "Gabriel Garcia Marquez", 417, true),
+        new Book(
+            "One Hundred Years of Solitude",
+            "Gabriel Garcia Marquez",
+            417,
+            true
+        ),
         new Book("The Picture of Dorian Gray", "Oscar Wilde", 254, false),
-    ]
-displayTable()
+    ];
+    displayTable();
 }
 
-addExampleBooks()
+const addBookButton = document.querySelector("button#add-book");
+addBookButton.onclick = diaglogAddBook;
+
+//addExampleBooks();
