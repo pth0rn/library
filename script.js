@@ -185,4 +185,4 @@ function addExampleBooks() {
 const addBookButton = document.querySelector("button#add-book");
 addBookButton.onclick = diaglogAddBook;
 
-//addExampleBooks();
+addExampleBooks();
