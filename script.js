@@ -7,6 +7,19 @@ function Book(name, author, pages, read) {
     this.read = read;
 }
 
+function removeEmptyLibrary() {
+
+    document.querySelector('table').remove()
+    const divMessage = document.createElement('div');
+    divMessage.innerHTML = `
+    <div class="message">
+        <p>No books added yet</p>
+    </div>
+    `
+    document.querySelector('main').appendChild(divMessage);
+
+}
+
 function createTable() {
     const table = document.createElement('table');
     table.innerHTML=`
@@ -39,13 +52,35 @@ function displayTable() {
     for (const book of library) {
         const row = document.createElement("tr");
         row.innerHTML = `
-        <td data-cell="name">${book.name}</td>
-        <td data-cell="author">${book.author}</td>
-        <td data-cell="pages">${book.pages}</td>
-        <td data-cell="read"><input type="checkbox" ${book.read ? 'checked' : null}></td>
+        <td>${book.name}</td>
+        <td>${book.author}</td>
+        <td>${book.pages}</td>
+        <td><input type="checkbox" ${book.read ? 'checked' : null}></td>
+        <td><button class="btn-cancel remove" data-name="${book.name}">x</button></td>
         `
     table.querySelector('tbody').appendChild(row);
+    
+    table.querySelectorAll(".remove").forEach(el => {
+        el.addEventListener('click', e => {
+            const bookName = e.target.dataset.name;
+            removeBook(bookName)
+        })
+    })
+
     }
+}
+
+function removeBook(name) {
+    library = library.filter( book => {
+        return book.name !== name;
+    })
+    
+    if (library.length === 0) {
+        removeEmptyLibrary()
+    } else {
+        displayTable()
+    }
+    
 }
 
 function addBookToLibrary(book) {
