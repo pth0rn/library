@@ -1,6 +1,6 @@
 class Library {
     constructor() {
-        this.list = []
+        this.list = [];
     }
 
     removeEmptyTable() {
@@ -30,7 +30,7 @@ class Library {
                 <tbody>
                 </tbody>
         `;
-    
+
         const container = document.querySelector("#table-container");
         return container.appendChild(table);
     }
@@ -41,7 +41,7 @@ class Library {
             document.querySelector("table").remove();
         }
         const table = this.createTable();
-    
+
         for (const book of lib.list) {
             const row = document.createElement("tr");
             row.innerHTML = `
@@ -57,7 +57,7 @@ class Library {
             `;
             table.querySelector("tbody").appendChild(row);
         }
-    
+
         // click events for remove buttons
         table.querySelectorAll(".remove").forEach((el) => {
             el.addEventListener("click", (e) => {
@@ -65,12 +65,12 @@ class Library {
                 this.removeBook(bookName);
             });
         });
-    
+
         // click events for toggling read status
         table.querySelectorAll(".read").forEach((el) => {
             el.addEventListener("click", (e) => {
                 const bookName = e.target.dataset.name;
-    
+
                 const bookIndex = lib.list.findIndex(
                     (book) => book.name === bookName
                 );
@@ -83,7 +83,7 @@ class Library {
         lib.list = this.list.filter((book) => {
             return book.name !== name;
         });
-    
+
         if (this.list.length === 0) {
             this.removeEmptyTable();
         } else {
@@ -98,22 +98,20 @@ class Library {
             message.remove();
         }
     }
-
 }
 
 class Book {
-    constructor(name,author,pages,read) {
+    constructor(name, author, pages, read) {
         this.name = name;
         this.author = author;
         this.pages = pages;
-        this.read = read;       
+        this.read = read;
     }
 
-    toggleRead () {
+    toggleRead() {
         this.read = !this.read;
-    };
+    }
 }
-
 
 function diaglogAddBook() {
     // display overlay and dialog box for adding new book
@@ -128,13 +126,13 @@ function diaglogAddBook() {
         <div class="dialog-container">
             <div class="dialog">
                 <h3>Add Book</h3>
-                <form action="#" id="form-add">
+                <form id="form-add">
                     <label for="name">Name</label>
-                    <input type="text" id="name">
+                    <input type="text" id="name" required>
                     <label for="author">Author</label>
-                    <input type="text" id="author">
+                    <input type="text" id="author" required>
                     <label for="pages">Pages</label>
-                    <input type="number" id="pages">
+                    <input type="number" id="pages" required>
                     <div>
                         <label for="read">Read</label>
                         <input type="checkbox" id="read">
@@ -155,11 +153,37 @@ function diaglogAddBook() {
     });
 
     dialog.querySelector("#add").addEventListener("click", (e) => {
+        const name = document.querySelector("#name");
+        const author = document.querySelector("#author");
+        const pages = document.querySelector("#pages");
+        const read = document.querySelector("#read");
+
+        if (name.validity.valueMissing) {
+            name.classList.add("invalid");
+            return;
+        } else {
+            name.classList.remove("invalid");
+        }
+
+        if (author.validity.valueMissing) {
+            author.classList.add("invalid");
+            return;
+        } else {
+            author.classList.remove("invalid");
+        }
+
+        if (pages.validity.valueMissing) {
+            pages.classList.add("invalid");
+            return;
+        } else {
+            pages.classList.remove("invalid");
+        }
+
         const newBook = new Book(
-            document.querySelector("#name").value,
-            document.querySelector("#author").value,
-            document.querySelector("#pages").value,
-            document.querySelector("#read").checked
+            name.value,
+            author.value,
+            pages.value,
+            read.checked
         );
         overlay.remove();
         lib.addBookToLibrary(newBook);
@@ -190,7 +214,7 @@ function addExampleBooks() {
     lib.displayTable();
 }
 
-const lib = new Library()
+const lib = new Library();
 
 const addBookButton = document.querySelector("button#add-book");
 addBookButton.onclick = diaglogAddBook;
